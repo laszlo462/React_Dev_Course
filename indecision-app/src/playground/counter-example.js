@@ -40,6 +40,25 @@ class Counter extends React.Component {
             </div>
         )
     }
+
+    componentDidMount() {
+        try {
+            const storedCount = localStorage.getItem('count')
+
+            if (storedCount) {
+                const count = parseInt(storedCount, 10)
+                this.setState(() => ({ count }))
+            }
+        } catch (e) {
+            //do nothing
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.count !== this.state.count) {
+            localStorage.setItem('count', this.state.count)
+        }
+    }
 }
 
 ReactDOM.render(<Counter />, document.getElementById('app'))
